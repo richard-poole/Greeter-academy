@@ -6,7 +6,7 @@ object GreeterApplication extends App {
 
   def greet(name: String) : Unit = {
     if (name == "Richard") {
-      println(s"Hello $name! you sexy son of a gun!!!!")
+      println(s"Hello $name!!!!!")
     } else {
       println(s"Hello $name")
     }
