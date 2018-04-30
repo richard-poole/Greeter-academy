@@ -2,8 +2,12 @@ package app
 
 import scala.io.StdIn
 
-class Person (name: String) {
-  def speak():String = {
+object Prompt {
+  def ask(message: String) = StdIn.readLine(message)
+}
+
+class Person(name: String) {
+  def speak(): String = {
     if (name == "Adam") {
       s"You don't get a hello"
     } else {
@@ -13,15 +17,9 @@ class Person (name: String) {
 }
 
 object GreeterApplication extends App {
+  val name = Prompt.ask("What is your name? ")
+  val person = new Person(name)
+  println(person.speak())
 
-  def greet(name: String) : Unit = {
-    if (name == "Richard") {
-      println(s"Hello $name!!!!!")
-    } else {
-      println(s"Hello $name but you're not Richard!!!")
-    }
-  }
-  val name = StdIn.readLine("What is your name? ")
-  greet(name)
 
 }
