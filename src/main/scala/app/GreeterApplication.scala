@@ -11,7 +11,7 @@ object Prompt {
 
 class Person(name: String, age: Int, private val bankAccount: BankAccount) {
 
-  def this (name: String, age: Int) = this(name, age, new SavingsAccount("12345", 0.00))
+  def this(name: String, age: Int) = this(name, age, new SavingsAccount("12345", 0.00))
 
   private val years: String = if (age > 1) "years" else "year"
 
@@ -19,7 +19,7 @@ class Person(name: String, age: Int, private val bankAccount: BankAccount) {
     if (name == "Adam") {
       s"You don't get a hello"
     } else {
-      s"Hello $name, you are $age $years old. \n You have ${bankAccount.balance} in your account"
+      s"Hello $name, you are $age $years old. \n Your account details are: $bankAccount"
     }
   }
 }
@@ -27,8 +27,11 @@ class Person(name: String, age: Int, private val bankAccount: BankAccount) {
 object GreeterApplication extends App {
   val name = Prompt.ask("What is your name? ")
   val age = Prompt.ask("What is your age? ")
+  val cashisa = new CashISAAccount("45858", 0.0)
+  val deposited = cashisa.deposit(1000)
+  val withdrawn = deposited.withdraw(200)
 
-  val person = new Person(name, age.toInt)
+  val person = new Person(name, age.toInt, withdrawn)
   println(person.speak())
 
 
@@ -38,6 +41,8 @@ abstract class BankAccount(accountNumber: String, val balance: Double) {
   def withdraw(amount: Double): BankAccount
 
   def deposit(amount: Double): BankAccount
+
+  override def toString: String = s"Account number: $accountNumber, with a Balance of: £$balance"
 }
 
 
@@ -60,12 +65,19 @@ final class SavingsAccount(accountNumber: String, balance: Double) extends BankA
 
 
 final class CashISAAccount(accountNumber: String, balance: Double) extends BankAccount(accountNumber, balance) {
+  private val depositThreshold: Double = 200
+
   override def withdraw(amount: Double): BankAccount = {
     println(s"You cannot withdraw from this ISA, do one!!!!!")
     this
   }
 
-override def deposit (amount: Double): BankAccount = {
-  new CashISAAccount (accountNumber, balance + amount)
-}
-}
+  override def deposit(amount: Double): BankAccount = {
+    if (amount > depositThreshold) {
+      val difference = amount - depositThreshold
+      println(s"You cannot deposit more than £$depositThreshold. Excess is: £$difference.")
+      new CashISAAccount(accountNumber, balance + depositThreshold)
+    } else {
+      new CashISAAccount(accountNumber, balance + amount)
+    }
+  }}
