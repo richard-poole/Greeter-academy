@@ -27,12 +27,18 @@ class Person(name: String, age: Int, private val bankAccount: BankAccount) {
 object GreeterApplication extends App {
   val name = Prompt.ask("What is your name? ")
   val age = Prompt.ask("What is your age? ")
-  val cashisa = new CashISAAccount("45858", 0.0)
+  val cashisa = new CashISAAccount("45858", 0.0, 1000)
   val deposited = cashisa.deposit(1000)
   val withdrawn = deposited.withdraw(200)
+  val normalAccount = new CashISAAccount("25258", 100)
+  val loyalAccountDeposited = normalAccount.deposit(300)
+
 
   val person = new Person(name, age.toInt, withdrawn)
   println(person.speak())
+
+  val loyal = new Person("Loyal Customer", 22, loyalAccountDeposited)
+  println(loyal.speak())
 
 
 }
@@ -57,21 +63,19 @@ final class SavingsAccount(accountNumber: String, balance: Double) extends BankA
       new SavingsAccount(accountNumber, deducted)
     }
   }
-
   override def deposit(amount: Double): BankAccount = {
     new SavingsAccount(accountNumber, balance + amount)
   }
 }
 
 
-final class CashISAAccount(accountNumber: String, balance: Double) extends BankAccount(accountNumber, balance) {
-  private val depositThreshold: Double = 200
+final class CashISAAccount(accountNumber: String, balance: Double, private val depositThreshold: Double = 200)
+  extends BankAccount(accountNumber, balance) {
 
   override def withdraw(amount: Double): BankAccount = {
     println(s"You cannot withdraw from this ISA, do one!!!!!")
     this
   }
-
   override def deposit(amount: Double): BankAccount = {
     if (amount > depositThreshold) {
       val difference = amount - depositThreshold
