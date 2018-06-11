@@ -3,9 +3,8 @@ package app
 import app.models.{CashISAAccount, Person}
 import app.views.Prompt
 
+import scala.collection.LinearSeq
 import scala.io.StdIn
-
-
 
 
 object GreeterApplication extends App {
@@ -18,13 +17,14 @@ object GreeterApplication extends App {
   val loyalAccountDeposited = normalAccount.deposit(300)
 
 
-  val person = new Person(name, age.toInt, withdrawn)
+  val person = new Person(name, age.toInt, LinearSeq(withdrawn))
   println(person.speak())
 
-  val loyal = new Person("Loyal Customer", 22, loyalAccountDeposited)
+  val loyal = new Person("Loyal Customer", 22, Seq(loyalAccountDeposited))
   Prompt.reply(loyal.speak())
 
-
+  val nameset = Set("adam", "daniel", "jake", "adam")
+  println(nameset)
 }
 
 
