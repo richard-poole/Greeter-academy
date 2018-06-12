@@ -26,13 +26,7 @@ object GreeterApplication extends App {
   val nameset = Set("adam", "daniel", "jake", "adam")
   println(nameset)
 
-trait Pet {
-  val name: String
-  def speak: String = "Woof!!"
-}
 
-  final class Cat(override val name: String) extends Pet
-  final class Dog (override val name: String) extends Pet
 
 
 }
