@@ -1,6 +1,6 @@
 package app.models
 
-final class CashISAAccount(accountNumber: String, balance: Double, private val depositThreshold: Double = 200)
+final class CashISASavingsAccount(accountNumber: String, balance: Double, private val depositThreshold: Double = 200)
   extends BankAccount(accountNumber, balance) {
 
   override def withdraw(amount: Double): BankAccount = {
@@ -11,8 +11,8 @@ final class CashISAAccount(accountNumber: String, balance: Double, private val d
     if (amount > depositThreshold) {
       val difference = amount - depositThreshold
       println(s"You cannot deposit more than £$depositThreshold. Excess is: £$difference.")
-      new CashISAAccount(accountNumber, balance + depositThreshold)
+      new CashISASavingsAccount(accountNumber, balance + depositThreshold)
     } else {
-      new CashISAAccount(accountNumber, balance + amount)
+      new CashISASavingsAccount(accountNumber, balance + amount)
     }
   }}

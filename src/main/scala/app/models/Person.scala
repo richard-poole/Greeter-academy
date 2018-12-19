@@ -1,18 +1,35 @@
 package app.models
 
-class Person(name: String, age: Int, val bankAccount: Seq[BankAccount] = Nil) {
+//class Person(name: String, age: Int, val bankAccount: Seq[BankAccount] = Nil) {
+//
+//  private val excluded = List("Adam", "Daniel")
+//
+//  def this(name: String, age: Int) = this(name, age, Seq(new SavingsAccount("12345", 0.00)))
+//
+//  private val years: String = if (age > 1) "years" else "year"
+//
+//  def speak(): String = {
+//    if (excluded.contains(name)) {
+//      s"You don't get a hello"
+//    } else {
+//      s"Hello $name, you are $age $years old. \n Your account details are: $bankAccount"
+//    }
+//  }
+//}
 
-  private val excluded = List("Adam", "Daniel")
 
-  def this(name: String, age: Int) = this(name, age, Seq(new SavingsAccount("12345", 0.00)))
+class Person(name: String, age: Int, private val bankAccount: BankAccount) {
 
-  private val years: String = if (age > 1) "years" else "year"
+  def this(name: String, age: Int) = this (name, age, new SavingsAccount("12345", 0.00))
 
   def speak(): String = {
-    if (excluded.contains(name)) {
-      s"You don't get a hello"
+    if (name == "Billy") {
+      s"You dont get a hello!"
     } else {
-      s"Hello $name, you are $age $years old. \n Your account details are: $bankAccount"
+      s"Hello $name, you are $age $years old. \n" +
+        s"Your account details are: $bankAccount"
     }
   }
+
+  private val years: String = if (age > 1) "years" else "year"
 }
